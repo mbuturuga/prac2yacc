@@ -1,0 +1,335 @@
+Grammar
+
+    0 $accept: calculadora $end
+
+    1 calculadora: sentencia
+    2            | calculadora sentencia
+
+    3 sentencia: '\n'
+    4          | expr '\n'
+    5          | error '\n'
+
+    6 expr: '(' expr ')'
+    7     | expr '+' expr
+    8     | expr '-' expr
+    9     | expr '*' expr
+   10     | expr '/' expr
+   11     | expr '%' expr
+   12     | '-' expr
+   13     | INT
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '\n' (10) 3 4 5
+    '%' (37) 11
+    '(' (40) 6
+    ')' (41) 6
+    '*' (42) 9
+    '+' (43) 7
+    '-' (45) 8 12
+    '/' (47) 10
+    error (256) 5
+    INT <valor> (258) 13
+    UMENYS (259)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (13)
+        on left: 0
+    calculadora <valor> (14)
+        on left: 1 2
+        on right: 0 2
+    sentencia <valor> (15)
+        on left: 3 4 5
+        on right: 1 2
+    expr <valor> (16)
+        on left: 6 7 8 9 10 11 12 13
+        on right: 4 6 7 8 9 10 11 12
+
+
+State 0
+
+    0 $accept: . calculadora $end
+
+    error  shift, and go to state 1
+    INT    shift, and go to state 2
+    '-'    shift, and go to state 3
+    '\n'   shift, and go to state 4
+    '('    shift, and go to state 5
+
+    calculadora  go to state 6
+    sentencia    go to state 7
+    expr         go to state 8
+
+
+State 1
+
+    5 sentencia: error . '\n'
+
+    '\n'  shift, and go to state 9
+
+
+State 2
+
+   13 expr: INT .
+
+    $default  reduce using rule 13 (expr)
+
+
+State 3
+
+   12 expr: '-' . expr
+
+    INT  shift, and go to state 2
+    '-'  shift, and go to state 3
+    '('  shift, and go to state 5
+
+    expr  go to state 10
+
+
+State 4
+
+    3 sentencia: '\n' .
+
+    $default  reduce using rule 3 (sentencia)
+
+
+State 5
+
+    6 expr: '(' . expr ')'
+
+    INT  shift, and go to state 2
+    '-'  shift, and go to state 3
+    '('  shift, and go to state 5
+
+    expr  go to state 11
+
+
+State 6
+
+    0 $accept: calculadora . $end
+    2 calculadora: calculadora . sentencia
+
+    $end   shift, and go to state 12
+    error  shift, and go to state 1
+    INT    shift, and go to state 2
+    '-'    shift, and go to state 3
+    '\n'   shift, and go to state 4
+    '('    shift, and go to state 5
+
+    sentencia  go to state 13
+    expr       go to state 8
+
+
+State 7
+
+    1 calculadora: sentencia .
+
+    $default  reduce using rule 1 (calculadora)
+
+
+State 8
+
+    4 sentencia: expr . '\n'
+    7 expr: expr . '+' expr
+    8     | expr . '-' expr
+    9     | expr . '*' expr
+   10     | expr . '/' expr
+   11     | expr . '%' expr
+
+    '+'   shift, and go to state 14
+    '-'   shift, and go to state 15
+    '*'   shift, and go to state 16
+    '/'   shift, and go to state 17
+    '%'   shift, and go to state 18
+    '\n'  shift, and go to state 19
+
+
+State 9
+
+    5 sentencia: error '\n' .
+
+    $default  reduce using rule 5 (sentencia)
+
+
+State 10
+
+    7 expr: expr . '+' expr
+    8     | expr . '-' expr
+    9     | expr . '*' expr
+   10     | expr . '/' expr
+   11     | expr . '%' expr
+   12     | '-' expr .
+
+    $default  reduce using rule 12 (expr)
+
+
+State 11
+
+    6 expr: '(' expr . ')'
+    7     | expr . '+' expr
+    8     | expr . '-' expr
+    9     | expr . '*' expr
+   10     | expr . '/' expr
+   11     | expr . '%' expr
+
+    '+'  shift, and go to state 14
+    '-'  shift, and go to state 15
+    '*'  shift, and go to state 16
+    '/'  shift, and go to state 17
+    '%'  shift, and go to state 18
+    ')'  shift, and go to state 20
+
+
+State 12
+
+    0 $accept: calculadora $end .
+
+    $default  accept
+
+
+State 13
+
+    2 calculadora: calculadora sentencia .
+
+    $default  reduce using rule 2 (calculadora)
+
+
+State 14
+
+    7 expr: expr '+' . expr
+
+    INT  shift, and go to state 2
+    '-'  shift, and go to state 3
+    '('  shift, and go to state 5
+
+    expr  go to state 21
+
+
+State 15
+
+    8 expr: expr '-' . expr
+
+    INT  shift, and go to state 2
+    '-'  shift, and go to state 3
+    '('  shift, and go to state 5
+
+    expr  go to state 22
+
+
+State 16
+
+    9 expr: expr '*' . expr
+
+    INT  shift, and go to state 2
+    '-'  shift, and go to state 3
+    '('  shift, and go to state 5
+
+    expr  go to state 23
+
+
+State 17
+
+   10 expr: expr '/' . expr
+
+    INT  shift, and go to state 2
+    '-'  shift, and go to state 3
+    '('  shift, and go to state 5
+
+    expr  go to state 24
+
+
+State 18
+
+   11 expr: expr '%' . expr
+
+    INT  shift, and go to state 2
+    '-'  shift, and go to state 3
+    '('  shift, and go to state 5
+
+    expr  go to state 25
+
+
+State 19
+
+    4 sentencia: expr '\n' .
+
+    $default  reduce using rule 4 (sentencia)
+
+
+State 20
+
+    6 expr: '(' expr ')' .
+
+    $default  reduce using rule 6 (expr)
+
+
+State 21
+
+    7 expr: expr . '+' expr
+    7     | expr '+' expr .
+    8     | expr . '-' expr
+    9     | expr . '*' expr
+   10     | expr . '/' expr
+   11     | expr . '%' expr
+
+    '*'  shift, and go to state 16
+    '/'  shift, and go to state 17
+    '%'  shift, and go to state 18
+
+    $default  reduce using rule 7 (expr)
+
+
+State 22
+
+    7 expr: expr . '+' expr
+    8     | expr . '-' expr
+    8     | expr '-' expr .
+    9     | expr . '*' expr
+   10     | expr . '/' expr
+   11     | expr . '%' expr
+
+    '*'  shift, and go to state 16
+    '/'  shift, and go to state 17
+    '%'  shift, and go to state 18
+
+    $default  reduce using rule 8 (expr)
+
+
+State 23
+
+    7 expr: expr . '+' expr
+    8     | expr . '-' expr
+    9     | expr . '*' expr
+    9     | expr '*' expr .
+   10     | expr . '/' expr
+   11     | expr . '%' expr
+
+    $default  reduce using rule 9 (expr)
+
+
+State 24
+
+    7 expr: expr . '+' expr
+    8     | expr . '-' expr
+    9     | expr . '*' expr
+   10     | expr . '/' expr
+   10     | expr '/' expr .
+   11     | expr . '%' expr
+
+    $default  reduce using rule 10 (expr)
+
+
+State 25
+
+    7 expr: expr . '+' expr
+    8     | expr . '-' expr
+    9     | expr . '*' expr
+   10     | expr . '/' expr
+   11     | expr . '%' expr
+   11     | expr '%' expr .
+
+    $default  reduce using rule 11 (expr)

@@ -1,0 +1,346 @@
+Grammar
+
+    0 $accept: input $end
+
+    1 input: sentence_list
+    2      | %empty
+
+    3 sentence_list: sentence_list sentence
+    4              | sentence
+
+    5 sentence: expr EXPR_END
+    6         | EXPR_END
+    7         | ERROR
+
+    8 expr: expr '+' expr
+    9     | expr '-' expr
+   10     | expr '*' expr
+   11     | expr '/' expr
+   12     | expr '%' expr
+   13     | '(' expr ')'
+   14     | '-' expr
+   15     | INT
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '%' (37) 12
+    '(' (40) 13
+    ')' (41) 13
+    '*' (42) 10
+    '+' (43) 8
+    '-' (45) 9 14
+    '/' (47) 11
+    error (256)
+    INT <value> (258) 15
+    EXPR_END (259) 5 6
+    ERROR <character> (260) 7
+    UMINUS (261)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (14)
+        on left: 0
+    input (15)
+        on left: 1 2
+        on right: 0
+    sentence_list (16)
+        on left: 3 4
+        on right: 1 3
+    sentence (17)
+        on left: 5 6 7
+        on right: 3 4
+    expr <node> (18)
+        on left: 8 9 10 11 12 13 14 15
+        on right: 5 8 9 10 11 12 13 14
+
+
+State 0
+
+    0 $accept: . input $end
+
+    INT       shift, and go to state 1
+    EXPR_END  shift, and go to state 2
+    ERROR     shift, and go to state 3
+    '-'       shift, and go to state 4
+    '('       shift, and go to state 5
+
+    $default  reduce using rule 2 (input)
+
+    input          go to state 6
+    sentence_list  go to state 7
+    sentence       go to state 8
+    expr           go to state 9
+
+
+State 1
+
+   15 expr: INT .
+
+    $default  reduce using rule 15 (expr)
+
+
+State 2
+
+    6 sentence: EXPR_END .
+
+    $default  reduce using rule 6 (sentence)
+
+
+State 3
+
+    7 sentence: ERROR .
+
+    $default  reduce using rule 7 (sentence)
+
+
+State 4
+
+   14 expr: '-' . expr
+
+    INT  shift, and go to state 1
+    '-'  shift, and go to state 4
+    '('  shift, and go to state 5
+
+    expr  go to state 10
+
+
+State 5
+
+   13 expr: '(' . expr ')'
+
+    INT  shift, and go to state 1
+    '-'  shift, and go to state 4
+    '('  shift, and go to state 5
+
+    expr  go to state 11
+
+
+State 6
+
+    0 $accept: input . $end
+
+    $end  shift, and go to state 12
+
+
+State 7
+
+    1 input: sentence_list .
+    3 sentence_list: sentence_list . sentence
+
+    INT       shift, and go to state 1
+    EXPR_END  shift, and go to state 2
+    ERROR     shift, and go to state 3
+    '-'       shift, and go to state 4
+    '('       shift, and go to state 5
+
+    $default  reduce using rule 1 (input)
+
+    sentence  go to state 13
+    expr      go to state 9
+
+
+State 8
+
+    4 sentence_list: sentence .
+
+    $default  reduce using rule 4 (sentence_list)
+
+
+State 9
+
+    5 sentence: expr . EXPR_END
+    8 expr: expr . '+' expr
+    9     | expr . '-' expr
+   10     | expr . '*' expr
+   11     | expr . '/' expr
+   12     | expr . '%' expr
+
+    EXPR_END  shift, and go to state 14
+    '+'       shift, and go to state 15
+    '-'       shift, and go to state 16
+    '*'       shift, and go to state 17
+    '/'       shift, and go to state 18
+    '%'       shift, and go to state 19
+
+
+State 10
+
+    8 expr: expr . '+' expr
+    9     | expr . '-' expr
+   10     | expr . '*' expr
+   11     | expr . '/' expr
+   12     | expr . '%' expr
+   14     | '-' expr .
+
+    $default  reduce using rule 14 (expr)
+
+
+State 11
+
+    8 expr: expr . '+' expr
+    9     | expr . '-' expr
+   10     | expr . '*' expr
+   11     | expr . '/' expr
+   12     | expr . '%' expr
+   13     | '(' expr . ')'
+
+    '+'  shift, and go to state 15
+    '-'  shift, and go to state 16
+    '*'  shift, and go to state 17
+    '/'  shift, and go to state 18
+    '%'  shift, and go to state 19
+    ')'  shift, and go to state 20
+
+
+State 12
+
+    0 $accept: input $end .
+
+    $default  accept
+
+
+State 13
+
+    3 sentence_list: sentence_list sentence .
+
+    $default  reduce using rule 3 (sentence_list)
+
+
+State 14
+
+    5 sentence: expr EXPR_END .
+
+    $default  reduce using rule 5 (sentence)
+
+
+State 15
+
+    8 expr: expr '+' . expr
+
+    INT  shift, and go to state 1
+    '-'  shift, and go to state 4
+    '('  shift, and go to state 5
+
+    expr  go to state 21
+
+
+State 16
+
+    9 expr: expr '-' . expr
+
+    INT  shift, and go to state 1
+    '-'  shift, and go to state 4
+    '('  shift, and go to state 5
+
+    expr  go to state 22
+
+
+State 17
+
+   10 expr: expr '*' . expr
+
+    INT  shift, and go to state 1
+    '-'  shift, and go to state 4
+    '('  shift, and go to state 5
+
+    expr  go to state 23
+
+
+State 18
+
+   11 expr: expr '/' . expr
+
+    INT  shift, and go to state 1
+    '-'  shift, and go to state 4
+    '('  shift, and go to state 5
+
+    expr  go to state 24
+
+
+State 19
+
+   12 expr: expr '%' . expr
+
+    INT  shift, and go to state 1
+    '-'  shift, and go to state 4
+    '('  shift, and go to state 5
+
+    expr  go to state 25
+
+
+State 20
+
+   13 expr: '(' expr ')' .
+
+    $default  reduce using rule 13 (expr)
+
+
+State 21
+
+    8 expr: expr . '+' expr
+    8     | expr '+' expr .
+    9     | expr . '-' expr
+   10     | expr . '*' expr
+   11     | expr . '/' expr
+   12     | expr . '%' expr
+
+    '*'  shift, and go to state 17
+    '/'  shift, and go to state 18
+    '%'  shift, and go to state 19
+
+    $default  reduce using rule 8 (expr)
+
+
+State 22
+
+    8 expr: expr . '+' expr
+    9     | expr . '-' expr
+    9     | expr '-' expr .
+   10     | expr . '*' expr
+   11     | expr . '/' expr
+   12     | expr . '%' expr
+
+    '*'  shift, and go to state 17
+    '/'  shift, and go to state 18
+    '%'  shift, and go to state 19
+
+    $default  reduce using rule 9 (expr)
+
+
+State 23
+
+    8 expr: expr . '+' expr
+    9     | expr . '-' expr
+   10     | expr . '*' expr
+   10     | expr '*' expr .
+   11     | expr . '/' expr
+   12     | expr . '%' expr
+
+    $default  reduce using rule 10 (expr)
+
+
+State 24
+
+    8 expr: expr . '+' expr
+    9     | expr . '-' expr
+   10     | expr . '*' expr
+   11     | expr . '/' expr
+   11     | expr '/' expr .
+   12     | expr . '%' expr
+
+    $default  reduce using rule 11 (expr)
+
+
+State 25
+
+    8 expr: expr . '+' expr
+    9     | expr . '-' expr
+   10     | expr . '*' expr
+   11     | expr . '/' expr
+   12     | expr . '%' expr
+   12     | expr '%' expr .
+
+    $default  reduce using rule 12 (expr)

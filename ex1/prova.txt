@@ -1,0 +1,9 @@
+c Exemple CNF DIMACS: mini-sudoku de 2 x 2
+c CNF amb 4 variables i 6 clausules
+c Final de clausula: 0
+p cnf 4 6 
+1 2 0   
+1 2 3 4 0
+1 0
+-4 -2 0 
+0
