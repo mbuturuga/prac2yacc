@@ -34,22 +34,19 @@
 
     // Function to print the expression tree in postfix notation
     void print_tree(struct node *root){
-        int has_left = root->left != NULL;
-        int has_right = root->right != NULL;
-
-        if (has_left){
-            print_tree(root->left);
-        }
-        if (has_right){
-            print_tree(root->right);
-        }
-
-        if(!has_left && !has_right){
-            printf("%d ", root->value);
+        if(root == NULL){
             return;
         }
+        print_tree(root->left);
+        print_tree(root->right);
 
-        printf("%c ", root->operator);
+        if(root->operator == '\0'){
+            /* leaf node */
+            printf("%d ", root->value);
+        }else{
+            /* operator node */
+            printf("%c ", root->operator);
+        }
     }
     
 %}
@@ -123,12 +120,14 @@ int main( int argc, char *argv[] ) {
 
     // Parse the file
     printf("Parsing file %s...\n", argv[1]);
-    
+
     if (yyparse() == 0){
         printf("File parsed successfully.\n");
+        free(zero);
 
     }else{
         fprintf(stderr, "Error: File finished unexpectedly.\n");
+        free(zero);
     }
     
 }

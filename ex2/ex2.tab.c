@@ -102,26 +102,21 @@
 
     // Function to print the expression tree in postfix notation
     void print_tree(struct node *root){
-        int has_left = root->left != NULL;
-        int has_right = root->right != NULL;
-
-        if (has_left){
-            print_tree(root->left);
-        }
-        if (has_right){
-            print_tree(root->right);
-        }
-
-        if(!has_left && !has_right){
-            printf("%d ", root->value);
+        if(root == NULL){
             return;
         }
+        print_tree(root->left);
+        print_tree(root->right);
 
-        printf("%c ", root->operator);
+        if(root->operator == '\0'){
+            printf("%d ", root->value);
+        }else{
+            printf("%c ", root->operator);
+        }
     }
     
 
-#line 125 "ex2.tab.c"
+#line 120 "ex2.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -185,13 +180,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 57 "ex2.y"
+#line 52 "ex2.y"
 
     int value;
     char character;
     struct node *node;
 
-#line 195 "ex2.tab.c"
+#line 190 "ex2.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -567,8 +562,8 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    78,    78,    79,    82,    83,    86,    87,    88,    91,
-      92,    93,    94,    95,    96,    97,    99
+       0,    73,    73,    74,    77,    78,    81,    82,    83,    86,
+      87,    88,    89,    90,    91,    92,    94
 };
 #endif
 
@@ -1369,68 +1364,68 @@ yyreduce:
   switch (yyn)
     {
   case 6:
-#line 86 "ex2.y"
+#line 81 "ex2.y"
                         { print_tree((yyvsp[-1].node)); printf("\n");}
-#line 1375 "ex2.tab.c"
+#line 1370 "ex2.tab.c"
     break;
 
   case 8:
-#line 88 "ex2.y"
+#line 83 "ex2.y"
                         { yyerror("Error: Unexpected character"); }
-#line 1381 "ex2.tab.c"
+#line 1376 "ex2.tab.c"
     break;
 
   case 9:
-#line 91 "ex2.y"
+#line 86 "ex2.y"
                             { (yyval.node) = malloc(sizeof(struct node)); (yyval.node)->operator = '+'; (yyval.node)->left = (yyvsp[-2].node); (yyval.node)->right = (yyvsp[0].node); (yyval.node)->value = 0; }
-#line 1387 "ex2.tab.c"
+#line 1382 "ex2.tab.c"
     break;
 
   case 10:
-#line 92 "ex2.y"
+#line 87 "ex2.y"
                             { (yyval.node) = malloc(sizeof(struct node)); (yyval.node)->operator = '-'; (yyval.node)->left = (yyvsp[-2].node); (yyval.node)->right = (yyvsp[0].node); (yyval.node)->value = 0; }
-#line 1393 "ex2.tab.c"
+#line 1388 "ex2.tab.c"
     break;
 
   case 11:
-#line 93 "ex2.y"
+#line 88 "ex2.y"
                             { (yyval.node) = malloc(sizeof(struct node)); (yyval.node)->operator = '*'; (yyval.node)->left = (yyvsp[-2].node); (yyval.node)->right = (yyvsp[0].node); (yyval.node)->value = 0; }
-#line 1399 "ex2.tab.c"
+#line 1394 "ex2.tab.c"
     break;
 
   case 12:
-#line 94 "ex2.y"
+#line 89 "ex2.y"
                             { (yyval.node) = malloc(sizeof(struct node)); (yyval.node)->operator = '/'; (yyval.node)->left = (yyvsp[-2].node); (yyval.node)->right = (yyvsp[0].node); (yyval.node)->value = 0; }
-#line 1405 "ex2.tab.c"
+#line 1400 "ex2.tab.c"
     break;
 
   case 13:
-#line 95 "ex2.y"
+#line 90 "ex2.y"
                             { (yyval.node) = malloc(sizeof(struct node)); (yyval.node)->operator = '%'; (yyval.node)->left = (yyvsp[-2].node); (yyval.node)->right = (yyvsp[0].node); (yyval.node)->value = 0; }
-#line 1411 "ex2.tab.c"
+#line 1406 "ex2.tab.c"
     break;
 
   case 14:
-#line 96 "ex2.y"
+#line 91 "ex2.y"
                             { (yyval.node) = (yyvsp[-1].node); }
-#line 1417 "ex2.tab.c"
+#line 1412 "ex2.tab.c"
     break;
 
   case 15:
-#line 97 "ex2.y"
+#line 92 "ex2.y"
                             { /* left operand as 0 */ 
                               (yyval.node) = malloc(sizeof(struct node)); (yyval.node)->operator = '-'; (yyval.node)->left = zero; (yyval.node)->right = (yyvsp[0].node); (yyval.node)->value = 0; }
-#line 1424 "ex2.tab.c"
+#line 1419 "ex2.tab.c"
     break;
 
   case 16:
-#line 99 "ex2.y"
+#line 94 "ex2.y"
                             { (yyval.node) = malloc(sizeof(struct node)); (yyval.node)->value = (yyvsp[0].value); (yyval.node)->operator = '\0'; (yyval.node)->left = NULL; (yyval.node)->right = NULL; }
-#line 1430 "ex2.tab.c"
+#line 1425 "ex2.tab.c"
     break;
 
 
-#line 1434 "ex2.tab.c"
+#line 1429 "ex2.tab.c"
 
       default: break;
     }
@@ -1662,7 +1657,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 102 "ex2.y"
+#line 97 "ex2.y"
 
 // Called by yyparse on error
 void yyerror (char const *s){
@@ -1687,12 +1682,14 @@ int main( int argc, char *argv[] ) {
 
     // Parse the file
     printf("Parsing file %s...\n", argv[1]);
-    
+
     if (yyparse() == 0){
         printf("File parsed successfully.\n");
+        free(zero);
 
     }else{
         fprintf(stderr, "Error: File finished unexpectedly.\n");
+        free(zero);
     }
     
 }
