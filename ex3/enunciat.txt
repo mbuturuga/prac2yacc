@@ -1,0 +1,8 @@
+Exercici 3 Eliminar els parentesis redundants.
+
+Escriviu una especificacio sint`actica (yacc) que accepti com a entrada una expressio aritmetica entera en notacio infixa i que generi com a sortida l’expressio aritmetica entera equivalent pero havent-hi eliminat els possibles parentesis redundants. L’especificacio de les expressions aritmetiques enteres en notacio infixa valides es la mateixa que a l’exercici anterior.
+Per exemple, l’expressi´o aritm`etica entera infixa seguent:
+( ( 3 * 4 ) - ( ( 5 / 6 * 4 ) * ( 2 + 3 ) ) );
+pot ser convertida en l’expressi´o aritmetica entera infixa equivalent seg¨uent:
+3 * 4 - 5 / 6 * 4 * ( 2 + 3 )
+A l’igual que a l’exercici anterior, per resoldre el problema, no cal construir l’arbre sintactic a mem`oria i recorre’l avaluant la necessitat o no de parentesis. Podeu anar construınt l’expressio resultant com un string que va creixent amb el processament de l’entrada, la qual un cop acabat el processat (expressions acabades en ;) es copia a la sortida estandard.

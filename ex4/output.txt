@@ -1,0 +1,7 @@
+Parsing file prova.txt...
+Proposition: P
+Proposition: A- >B
+Proposition: !Q
+Proposition: L< - >S
+Proposition: 3
+Proposition: Proposition: File parsed successfully.

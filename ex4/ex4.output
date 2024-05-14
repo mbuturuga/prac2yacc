@@ -1,0 +1,318 @@
+Grammar
+
+    0 $accept: input $end
+
+    1 input: formula_list
+    2      | %empty
+
+    3 formula_list: formula_list formula
+    4             | formula
+
+    5 formula: EOL
+    6        | proposition EOL
+    7        | error EOL
+
+    8 proposition: NOT proposition
+    9            | proposition AND proposition
+   10            | proposition OR proposition
+   11            | proposition IMPLIES proposition
+   12            | proposition IFF proposition
+   13            | '(' proposition ')'
+   14            | VAR
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '(' (40) 13
+    ')' (41) 13
+    error (256) 7
+    VAR <value> (258) 14
+    AND (259) 9
+    OR (260) 10
+    NOT (261) 8
+    IMPLIES (262) 11
+    IFF (263) 12
+    EOL (264) 5 6 7
+
+
+Nonterminals, with rules where they appear
+
+    $accept (12)
+        on left: 0
+    input (13)
+        on left: 1 2
+        on right: 0
+    formula_list (14)
+        on left: 3 4
+        on right: 1 3
+    formula (15)
+        on left: 5 6 7
+        on right: 3 4
+    proposition <str> (16)
+        on left: 8 9 10 11 12 13 14
+        on right: 6 8 9 10 11 12 13
+
+
+State 0
+
+    0 $accept: . input $end
+
+    error  shift, and go to state 1
+    VAR    shift, and go to state 2
+    NOT    shift, and go to state 3
+    EOL    shift, and go to state 4
+    '('    shift, and go to state 5
+
+    $end  reduce using rule 2 (input)
+
+    input         go to state 6
+    formula_list  go to state 7
+    formula       go to state 8
+    proposition   go to state 9
+
+
+State 1
+
+    7 formula: error . EOL
+
+    EOL  shift, and go to state 10
+
+
+State 2
+
+   14 proposition: VAR .
+
+    $default  reduce using rule 14 (proposition)
+
+
+State 3
+
+    8 proposition: NOT . proposition
+
+    VAR  shift, and go to state 2
+    NOT  shift, and go to state 3
+    '('  shift, and go to state 5
+
+    proposition  go to state 11
+
+
+State 4
+
+    5 formula: EOL .
+
+    $default  reduce using rule 5 (formula)
+
+
+State 5
+
+   13 proposition: '(' . proposition ')'
+
+    VAR  shift, and go to state 2
+    NOT  shift, and go to state 3
+    '('  shift, and go to state 5
+
+    proposition  go to state 12
+
+
+State 6
+
+    0 $accept: input . $end
+
+    $end  shift, and go to state 13
+
+
+State 7
+
+    1 input: formula_list .
+    3 formula_list: formula_list . formula
+
+    error  shift, and go to state 1
+    VAR    shift, and go to state 2
+    NOT    shift, and go to state 3
+    EOL    shift, and go to state 4
+    '('    shift, and go to state 5
+
+    $end  reduce using rule 1 (input)
+
+    formula      go to state 14
+    proposition  go to state 9
+
+
+State 8
+
+    4 formula_list: formula .
+
+    $default  reduce using rule 4 (formula_list)
+
+
+State 9
+
+    6 formula: proposition . EOL
+    9 proposition: proposition . AND proposition
+   10            | proposition . OR proposition
+   11            | proposition . IMPLIES proposition
+   12            | proposition . IFF proposition
+
+    AND      shift, and go to state 15
+    OR       shift, and go to state 16
+    IMPLIES  shift, and go to state 17
+    IFF      shift, and go to state 18
+    EOL      shift, and go to state 19
+
+
+State 10
+
+    7 formula: error EOL .
+
+    $default  reduce using rule 7 (formula)
+
+
+State 11
+
+    8 proposition: NOT proposition .
+    9            | proposition . AND proposition
+   10            | proposition . OR proposition
+   11            | proposition . IMPLIES proposition
+   12            | proposition . IFF proposition
+
+    $default  reduce using rule 8 (proposition)
+
+
+State 12
+
+    9 proposition: proposition . AND proposition
+   10            | proposition . OR proposition
+   11            | proposition . IMPLIES proposition
+   12            | proposition . IFF proposition
+   13            | '(' proposition . ')'
+
+    AND      shift, and go to state 15
+    OR       shift, and go to state 16
+    IMPLIES  shift, and go to state 17
+    IFF      shift, and go to state 18
+    ')'      shift, and go to state 20
+
+
+State 13
+
+    0 $accept: input $end .
+
+    $default  accept
+
+
+State 14
+
+    3 formula_list: formula_list formula .
+
+    $default  reduce using rule 3 (formula_list)
+
+
+State 15
+
+    9 proposition: proposition AND . proposition
+
+    VAR  shift, and go to state 2
+    NOT  shift, and go to state 3
+    '('  shift, and go to state 5
+
+    proposition  go to state 21
+
+
+State 16
+
+   10 proposition: proposition OR . proposition
+
+    VAR  shift, and go to state 2
+    NOT  shift, and go to state 3
+    '('  shift, and go to state 5
+
+    proposition  go to state 22
+
+
+State 17
+
+   11 proposition: proposition IMPLIES . proposition
+
+    VAR  shift, and go to state 2
+    NOT  shift, and go to state 3
+    '('  shift, and go to state 5
+
+    proposition  go to state 23
+
+
+State 18
+
+   12 proposition: proposition IFF . proposition
+
+    VAR  shift, and go to state 2
+    NOT  shift, and go to state 3
+    '('  shift, and go to state 5
+
+    proposition  go to state 24
+
+
+State 19
+
+    6 formula: proposition EOL .
+
+    $default  reduce using rule 6 (formula)
+
+
+State 20
+
+   13 proposition: '(' proposition ')' .
+
+    $default  reduce using rule 13 (proposition)
+
+
+State 21
+
+    9 proposition: proposition . AND proposition
+    9            | proposition AND proposition .
+   10            | proposition . OR proposition
+   11            | proposition . IMPLIES proposition
+   12            | proposition . IFF proposition
+
+    $default  reduce using rule 9 (proposition)
+
+
+State 22
+
+    9 proposition: proposition . AND proposition
+   10            | proposition . OR proposition
+   10            | proposition OR proposition .
+   11            | proposition . IMPLIES proposition
+   12            | proposition . IFF proposition
+
+    AND  shift, and go to state 15
+
+    $default  reduce using rule 10 (proposition)
+
+
+State 23
+
+    9 proposition: proposition . AND proposition
+   10            | proposition . OR proposition
+   11            | proposition . IMPLIES proposition
+   11            | proposition IMPLIES proposition .
+   12            | proposition . IFF proposition
+
+    AND  shift, and go to state 15
+    OR   shift, and go to state 16
+
+    $default  reduce using rule 11 (proposition)
+
+
+State 24
+
+    9 proposition: proposition . AND proposition
+   10            | proposition . OR proposition
+   11            | proposition . IMPLIES proposition
+   12            | proposition . IFF proposition
+   12            | proposition IFF proposition .
+
+    AND  shift, and go to state 15
+    OR   shift, and go to state 16
+
+    $default  reduce using rule 12 (proposition)

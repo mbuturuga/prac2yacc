@@ -1,0 +1,8 @@
+T1(a1,    a2)
+P2(f1(x1)) - > P1(x1,b2,  c5)
+forall x1 P1(x12)
+P1(a1) ∧ P2(b1) ∨ P3(x1)
+P1(a1) ∧ (P2(b1) ∨ P3(x1))
+forall x2 P1(x10) ∧ exists y1 P2(y14)
+!P1(a1) ∧ P2(b1)
+P1(g2(f1(x1))) ∧ P2(b1)
